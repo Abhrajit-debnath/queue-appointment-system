@@ -1,6 +1,6 @@
-import userModel from "../models/user.models.js";
-import { comparePassword } from "../helpers/password.helper.js";
-import { generateToken } from "../helpers/token.helper.js";
+import userModel from "../../models/user.model.js";
+import { comparePassword } from "../../helpers/password.helper.js";
+import { generateToken } from "../../helpers/token.helper.js";
 
 const loginUser = async (req, res) => {
 

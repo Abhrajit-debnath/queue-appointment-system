@@ -1,6 +1,6 @@
-import userModel from "../models/user.models.js";
-import {hashPassword} from "../helpers/password.helper.js";
-import {generateToken} from "../helpers/token.helper.js";
+import userModel from "../../models/user.model.js";
+import {hashPassword} from "../../helpers/password.helper.js";
+import {generateToken} from "../../helpers/token.helper.js";
 
 const registerUser = async (req, res) => {
   const { email, role, password, businessId } = req.body;

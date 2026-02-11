@@ -7,7 +7,9 @@ import cookieParser from "cookie-parser";
 
 const PORT = process.env.PORT || 3000;
 
+
 app.use(cookieParser(process.env.COOKIE_SECRET));
+
 
 connectToDb();
 
