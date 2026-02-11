@@ -1,5 +1,5 @@
 import express from "express"
-import authRoutes from "./routes/auth.route.js"
+import authRoutes from "./routes/auth/auth.route.js"
 
 
 

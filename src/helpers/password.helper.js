@@ -1,12 +1,24 @@
 import bcrypt from "bcrypt";
 
-const hashPassword =  (password) => {
+const hashPassword =  async(password) => {
   try {
-    const hashedPassword =  bcrypt.hash(password, 10);
+    const hashedPassword = await bcrypt.hash(password, 10);
     return hashedPassword;
   } catch (error) {
     throw new Error(error);
   }
 };
 
-export default hashPassword
+const comparePassword =  async(password,hashPassword) => {
+  try {
+    const comparedPassword =  await bcrypt.compare(password,hashPassword)
+    return comparedPassword;
+  } catch (error) {
+    throw new Error(error);
+  }
+};
+
+export {
+  comparePassword,
+  hashPassword
+}

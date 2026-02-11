@@ -1,6 +1,6 @@
 import userModel from "../models/user.models.js";
-import hashPassword from "../helpers/password.helper.js";
-import generateToken from "../helpers/token.helper.js";
+import {hashPassword} from "../helpers/password.helper.js";
+import {generateToken} from "../helpers/token.helper.js";
 
 const registerUser = async (req, res) => {
   const { email, role, password, businessId } = req.body;
@@ -27,7 +27,7 @@ const registerUser = async (req, res) => {
       expiresIn: "2 days",
     };
 
-    const token = generateToken(user._id, user.role, tokenOptions);
+    const token = generateToken(user.role, user._id, tokenOptions);
 
     if (!token) {
       console.log("Unable to generate token");
