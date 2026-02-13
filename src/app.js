@@ -1,6 +1,8 @@
 import express from "express"
-import authRoutes from "./routes/auth/auth.route.js"
-import businessRoutes from "./routes/business/business.route.js"
+import authRoutes from "./routes/auth/auth.routes.js"
+import staffRoutes from "./routes/staff/staff.routes.js"
+import businessRoutes from "./routes/business/business.routes.js"
+import appointmentRoutes from "./routes/appointment/appointment.routes.js"
 
 import cookieParser from "cookie-parser";
 
@@ -20,6 +22,9 @@ app.use(express.json())
 
 app.use("/api/auth",authRoutes)
 app.use("/api/business",businessRoutes)
+app.use("/api/staff",staffRoutes)
+app.use("/api/appointment",appointmentRoutes)
+app.use("/api/appointments",appointmentRoutes)
 
 
 app.get("/",(req,res)=>{

@@ -10,6 +10,11 @@ const createbusiness = async (req, res) => {
       ownerId: req.user.userId,
     });
 
+    if (!business) {
+      return res.status(404).json({
+        message: "Business not created",
+      });
+    }
     res.status(201).json({
       message: "Business created successfully",
       business,
