@@ -1,13 +1,26 @@
+import { convertTo24hour } from "../../helpers/convertTime.js";
 import businessModel from "../../models/business.model.js";
 
 const createbusiness = async (req, res) => {
-  const { name, email } = req.body;
+  const { name, email, startHour, endHour } = req.body;
+
+  const date = new Date();
+  const year = date.getFullYear();
+  const month = date.getMonth() + 1;
+  const day = date.getDay();
+
+  const startTime24hr = convertTo24hour(startHour);
+  const endTime24hr = convertTo24hour(endHour);
+  const fullStartTime = `${year}-${"0" + month}-${"0" + day}T${startTime24hr}:00`;
+  const fullEndTime = `${year}-${"0" + month}-${"0" + day}T${endTime24hr}:00`;
 
   try {
     const business = await businessModel.create({
       name,
       email,
       ownerId: req.user.userId,
+      startHour: fullStartTime,
+      endHour: fullEndTime,
     });
 
     if (!business) {
@@ -20,7 +33,12 @@ const createbusiness = async (req, res) => {
       business,
     });
   } catch (error) {
-    console.error(error);
+    if (error === 11000) {
+      res.status(400).json({
+        message: "can't create business with same name and ownerId",
+        business,
+      });
+    }
     res.status(500).json({ message: "Internal server error" });
   }
 };

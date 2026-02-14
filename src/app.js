@@ -3,6 +3,7 @@ import authRoutes from "./routes/auth/auth.routes.js"
 import staffRoutes from "./routes/staff/staff.routes.js"
 import businessRoutes from "./routes/business/business.routes.js"
 import appointmentRoutes from "./routes/appointment/appointment.routes.js"
+import queueRoutes from "./routes/queue/queue.routes.js"
 
 import cookieParser from "cookie-parser";
 
@@ -25,6 +26,7 @@ app.use("/api/business",businessRoutes)
 app.use("/api/staff",staffRoutes)
 app.use("/api/appointment",appointmentRoutes)
 app.use("/api/appointments",appointmentRoutes)
+app.use("/api/queue",queueRoutes)
 
 
 app.get("/",(req,res)=>{

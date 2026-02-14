@@ -3,7 +3,9 @@
 import appointmentModel from "../../models/appointment.model.js";
 
 const getAppointmentbybusinessId = async (req, res) => {
-  const { businessId } = req.query;
+  const { businessId } = req.params;
+
+  
 
 
   try {

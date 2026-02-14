@@ -28,10 +28,10 @@ router.post(
   createAppointment,
 );
 
-router.get("/", authMiddleware, getAppointmentbyId);
+router.get("/", authMiddleware,roleMiddleware("staff","customer","owner"), getAppointmentbyId);
 
 router.get(
-  "/",
+  "/:businessId",
   authMiddleware,
   roleMiddleware("owner", "staff"),
   getAppointmentbybusinessId,

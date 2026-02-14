@@ -24,6 +24,26 @@ export const businessValidator = checkSchema(
         bail: true,
       },
     },
+    startHour : {
+       in: ["body"],
+      notEmpty: {
+        errorMessage: "startHour is required",
+        bail: true,
+      },
+      isString:{
+          errorMessage: "startHour must be in string",
+      }
+    },
+     endHour : {
+       in: ["body"],
+      notEmpty: {
+        errorMessage: "endHour is required",
+        bail: true,
+      },
+      isString:{
+          errorMessage: "endHour must be in string",
+      }
+    }
   },
   ["body"],
 );

@@ -1,9 +1,14 @@
+import { convertTo24hour } from "../../helpers/convertTime.js";
 import appointmentModel from "../../models/appointment.model.js";
 
 const createAppointment = async (req, res) => {
   const { name, businessId, customerId, time, date } = req.body;
+  const time24hr = convertTo24hour(time);
+  console.log(time24hr);
 
-  const fullDateTime = new Date(`${date}T${time}:00`);
+  const fullDateTime = new Date(`${date}T${time24hr}:00`);
+
+  console.log(fullDateTime);
 
   try {
     const appointment = await appointmentModel.create({

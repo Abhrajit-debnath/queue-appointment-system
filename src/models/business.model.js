@@ -18,16 +18,11 @@ const businessSchema = new mongoose.Schema(
       required: true,
     },
     startHour: {
-      type: Number,
-      require: true,
-      min: 0,
-      max: 23,
+      type: Date,
     },
     endHour: {
-      type: Number,
-      require: true,
-      min: 0,
-      max: 23,
+       type: Date,
+   
     },
   },
   { timestamps: true },

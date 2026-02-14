@@ -19,7 +19,7 @@ router.use(authMiddleware);
 router.get("/", roleMiddleware("owner", "customer"), getallBusinesses);
 
 router.post(
-  "/create",
+  "/",
   businessValidator,
   businessValidate,
   roleMiddleware("owner"),

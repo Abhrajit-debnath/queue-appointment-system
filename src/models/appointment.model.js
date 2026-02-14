@@ -27,7 +27,7 @@ const appointmentSchema = new mongoose.Schema(
   { timestamps: true },
 );
 
-appointmentSchema.index({ businessId: 1, time: 1 }, { unique: true });
+appointmentSchema.index({ time: 1 }, { unique: true });
 
 const apppointmentModel = mongoose.model("Appointment", appointmentSchema);
 export default apppointmentModel;
