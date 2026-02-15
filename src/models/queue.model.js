@@ -12,6 +12,12 @@ const queueSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "business",
   },
+  status: {
+    enum: ["in_progress", "completed", "cancelled"],
+    type:String,
+    required:true,
+    
+  },
 });
 
 queueSchema.index({ appointmentId: 1, businessId: 1 }, { unique: true });
