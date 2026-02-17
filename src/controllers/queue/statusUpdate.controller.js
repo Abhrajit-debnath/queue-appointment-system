@@ -1,4 +1,3 @@
-
 import queueModel from "../../models/queue.model.js";
 
 const statusUpdateToProgress = async (req, res) => {
@@ -17,7 +16,7 @@ const statusUpdateToProgress = async (req, res) => {
     }
 
     res.status(200).json({
-      messsage: `change status changed to ${status.status} sucessfully`,
+      messsage: `Status changed to ${status.status} sucessfully`,
     });
   } catch (error) {
     res.status(500).json({
@@ -26,4 +25,4 @@ const statusUpdateToProgress = async (req, res) => {
   }
 };
 
-export default statusUpdateToProgress
+export default statusUpdateToProgress;

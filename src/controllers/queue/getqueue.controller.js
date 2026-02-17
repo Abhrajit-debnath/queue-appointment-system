@@ -16,7 +16,7 @@ const getQueue = async (req, res) => {
       });
     }
 
-    res.status(201).json({
+    res.status(200).json({
       message: "Queue fetched successfully",
       queue,
     });

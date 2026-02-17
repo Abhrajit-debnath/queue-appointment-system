@@ -1,4 +1,3 @@
-import queueModel from "../models/queue.model.js";
 
 export function generateQueue(queue) {
   if (queue.length == 0) {
@@ -12,10 +11,9 @@ export function generateQueue(queue) {
       appointmentId: element._id,
       businessId: element.businessId,
       queueNumber: index + 1,
+      status: "pending",
     });
   });
 
   return newArr;
 }
-
-// queueModel.insertMany()

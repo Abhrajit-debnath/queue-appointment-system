@@ -16,7 +16,7 @@ const statusUpdateToComplete = async (req, res) => {
     }
 
     res.status(200).json({
-      messsage: `change status changed to ${status.status} sucessfully`,
+      messsage: `Status changed to ${status.status} sucessfully`,
     });
   } catch (error) {
     res.status(500).json({

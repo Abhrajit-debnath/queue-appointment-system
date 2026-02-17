@@ -11,12 +11,12 @@ const queueSchema = new mongoose.Schema({
   businessId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "business",
+    index: true,
   },
   status: {
-    enum: ["in_progress", "completed", "cancelled"],
-    type:String,
-    required:true,
-    
+    enum: ["in_progress", "completed", "cancelled", "pending"],
+    type: String,
+    required: true,
   },
 });
 
