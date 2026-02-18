@@ -1,3 +1,4 @@
+import { deleteQueueInCache } from "../../cache/redis/helpers/queueHelpers/queue.cache.js";
 import { convertTo24hour } from "../../helpers/convertTime.js";
 import appointmentModel from "../../models/appointment.model.js";
 
@@ -17,6 +18,8 @@ const createAppointment = async (req, res) => {
       customerId,
       time: fullDateTime,
     });
+
+    deleteQueueInCache(businessId);
 
     if (!appointment) {
       res.status(500).json({

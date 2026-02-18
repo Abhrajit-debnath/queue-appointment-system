@@ -41,4 +41,16 @@ const setQueueInCache = async (id, data) => {
   }
 };
 
-export { setQueueInCache, checkQueueInCache };
+const deleteQueueInCache = async (id) => {
+  try {
+    const redisClient = await getRedis();
+    await redisClient.del(`Queue:${id}`);
+
+    return true;
+  } catch (error) {
+    console.error(error);
+    return false;
+  }
+};
+
+export { setQueueInCache, checkQueueInCache, deleteQueueInCache };
