@@ -6,6 +6,8 @@ import generateQueue from "../../controllers/queue/queue.controller.js";
 import getQueue from "../../controllers/queue/getqueue.controller.js";
 import statusUpdateToProgress from "../../controllers/queue/statusUpdate.controller.js";
 import statusUpdateToComplete from "../../controllers/queue/statusUpdateToComplete.controller.js";
+import { checkQueueInCache } from "../../cache/redis/helpers/queueHelpers/queue.cache.js";
+import { check } from "express-validator";
 
 const router = express.Router();
 
@@ -23,6 +25,7 @@ router.get(
   "/:businessId",
   authMiddleware,
   roleMiddleware("owner", "staff"),
+  checkQueueInCache,
   getQueue,
 );
 router.patch(
