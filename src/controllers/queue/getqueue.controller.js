@@ -1,4 +1,5 @@
 import { setQueueInCache } from "../../cache/redis/helpers/queueHelpers/queue.cache.js";
+import { CheckAndDelete } from "../../helpers/checkCompleteApp.js";
 import queueModel from "../../models/queue.model.js";
 
 const getQueue = async (req, res) => {
@@ -15,14 +16,16 @@ const getQueue = async (req, res) => {
       });
     }
 
-    const status = await setQueueInCache(businessId, queue);
+    const updatedQueue = CheckAndDelete(queue);
+
+    const status = await setQueueInCache(businessId, updatedQueue);
     if (status) {
       console.log("queue saved in cached sucessfully");
     }
 
     res.status(200).json({
       message: "Queue fetched successfully",
-      queue,
+      updatedQueue,
     });
   } catch (error) {
     console.error(error);

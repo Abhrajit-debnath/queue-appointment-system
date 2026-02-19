@@ -1,7 +1,6 @@
 import { deleteQueueInCache } from "../../cache/redis/helpers/queueHelpers/queue.cache.js";
 import queueModel from "../../models/queue.model.js";
 
-// const statusUpdateToComplete = async (req, res) => {
 //   const { appointmentId } = req.params;
 //   try {
 //     const status = await queueModel.findOneAndUpdate(
@@ -23,7 +22,7 @@ import queueModel from "../../models/queue.model.js";
 //     });
 //   } catch (error) {
 //     console.log(error);
-    
+
 //     res.status(500).json({
 //       messsage: "internal Server Error",error
 //     });
@@ -37,7 +36,7 @@ const statusUpdateToComplete = async (req, res) => {
     const status = await queueModel.findOneAndUpdate(
       { appointmentId },
       { $set: { status: "completed" } },
-      { returnDocument: "after" }
+      { returnDocument: "after" },
     );
 
     if (!status) {
@@ -51,7 +50,6 @@ const statusUpdateToComplete = async (req, res) => {
     return res.status(200).json({
       message: `Status changed to ${status.status} successfully`,
     });
-
   } catch (error) {
     console.log(error);
 
@@ -60,6 +58,5 @@ const statusUpdateToComplete = async (req, res) => {
     });
   }
 };
-
 
 export default statusUpdateToComplete;
