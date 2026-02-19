@@ -1,6 +1,6 @@
 import { checkSchema, validationResult } from "express-validator";
 
-// Validator for staff route
+// Validator for Appointment route
 
 export const appointmentValidator = checkSchema(
   {
@@ -29,18 +29,18 @@ export const appointmentValidator = checkSchema(
         errorMessage: "Invalid Type",
       },
     },
-  
-      time: {
-        in: ["body"],
-        notEmpty: {
-          errorMessage: "time is required",
-          bail: true,
-        },
-        isString: {
-          errorMessage: "Time should be in string",
-        },
+
+    time: {
+      in: ["body"],
+      notEmpty: {
+        errorMessage: "time is required",
+        bail: true,
       },
-        date: {
+      isString: {
+        errorMessage: "Time should be in String",
+      },
+    },
+    date: {
       in: ["body"],
       notEmpty: {
         errorMessage: "date is required",
@@ -54,7 +54,7 @@ export const appointmentValidator = checkSchema(
   ["body"],
 );
 
-// Validation function for staff route
+// Validation function for Appointment route
 
 export const appointValidate = async (req, res, next) => {
   const errors = validationResult(req);
