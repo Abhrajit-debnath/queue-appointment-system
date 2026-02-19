@@ -6,30 +6,21 @@ const genQueue = async (req, res) => {
   const { businessId } = req.params;
 
   try {
-    const queue = await appointmentModel
-      .find({
-        businessId,
-      })
-      .sort({
-        time: 1,
-      });
+    const appointments = await appointmentModel
+      .find({ businessId })
+      .sort({ time: 1 }); 
 
-    const sortedQueue = generateQueue(queue);
+    const sortedQueue = generateQueue(appointments);
 
-    const finalQueue = await queueModel.insertMany(sortedQueue);
+    await queueModel.insertMany(sortedQueue);
 
-    if (!finalQueue) {
-      res.status(500).json({
-        message: "Queue can't not be generated",
-      });
-    }
-
-    res.status(201).json({
+    return res.status(201).json({
       message: "Queue generated successfully",
     });
+
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "Internal server error" });
+    return res.status(500).json({ message: "Internal server error" });
   }
 };
 
