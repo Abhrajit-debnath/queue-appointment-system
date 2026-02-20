@@ -109,11 +109,11 @@
 
 ### Appointments
 
-| Method | Endpoint                       | Description                   | Auth         |
-| ------ | ------------------------------ | ----------------------------- | ------------ |
-| POST   | `/api/appointment/create`      | Create appointment            | Customer, staff     |
-| GET    | `/api/appointment/`         | Get appointment by userId         | customer |
-| GET    | `/api/appointment/:businessId` | Get appointment by businessId | Staff, Owner |
+| Method | Endpoint                       | Description                   | Auth            |
+| ------ | ------------------------------ | ----------------------------- | --------------- |
+| POST   | `/api/appointment/create`      | Create appointment            | Customer, staff |
+| GET    | `/api/appointment/`            | Get appointment by userId     | customer        |
+| GET    | `/api/appointment/:businessId` | Get appointment by businessId | Staff, Owner    |
 
 ### Queue
 
@@ -179,3 +179,76 @@ npm run dev
 ---
 
 ## 🔮 Improvements
+
+### Peformance
+
+> Improved performance of queue route by implementing caching with redis tested with grafana k6
+
+#### Results
+
+##### Before caching
+
+```
+█ TOTAL RESULTS
+
+    checks_total.......: 1131    94.763297/s
+    checks_succeeded...: 100.00% 1131 out of 1131
+    checks_failed......: 0.00%   0 out of 1131
+
+    ✓ status is 200
+
+    HTTP
+    http_req_duration..............: avg=1.88s min=126.6ms  med=1.93s max=4.26s p(90)=2.16s p(95)=2.4s
+      { expected_response:true }...: avg=1.88s min=126.6ms  med=1.93s max=4.26s p(90)=2.16s p(95)=2.4s
+    http_req_failed................: 0.00%  0 out of 1131
+    http_reqs......................: 1131   94.763297/s
+
+    EXECUTION
+    iteration_duration.............: avg=1.88s min=127.79ms med=1.93s max=4.26s p(90)=2.16s p(95)=2.4s
+    iterations.....................: 1131   94.763297/s
+    vus............................: 95     min=95        max=200
+    vus_max........................: 200    min=200       max=200
+
+    NETWORK
+    data_received..................: 697 kB 58 kB/s
+    data_sent......................: 357 kB 30 kB/s
+
+
+
+
+running (11.9s), 000/200 VUs, 1131 complete and 0 interrupted iterations
+default ✓ [======================================] 200 VUs  10s
+
+```
+
+##### After Caching
+
+```
+HTTP
+http_req_duration..............: avg=42.6ms  min=4.64ms med=40.42ms max=1.26s p(90)=45.76ms p(95)=47.52ms
+{ expected_response:true }...: avg=42.6ms  min=4.64ms med=40.42ms max=1.26s p(90)=45.76ms p(95)=47.52ms
+http_req_failed................: 0.00% 0 out of 46853
+http_reqs......................: 46853 4678.477878/s
+
+    EXECUTION
+    iteration_duration.............: avg=42.69ms min=4.73ms med=40.5ms  max=1.26s p(90)=45.84ms p(95)=47.6ms
+    iterations.....................: 46853 4678.477878/s
+    vus............................: 200   min=200        max=200
+    vus_max........................: 200   min=200        max=200
+
+    NETWORK
+    data_received..................: 28 MB 2.8 MB/s
+    data_sent......................: 15 MB 1.5 MB/s
+
+running (10.0s), 000/200 VUs, 46853 complete and 0 interrupted iterations
+default ✓ [======================================] 200 VUs 10s
+```
+
+### Summary Table
+
+| Metric               | Before Cache | After Cache | Improvement |
+| -------------------- | ------------ | ----------- | ----------- |
+| Throughput           | 94 req/s     | 4,678 req/s | 49x faster  |
+| Avg Response         | 1.88s        | 42.6ms      | 44x faster  |
+| p(95)                | 2.4s         | 47.52ms     | 50x faster  |
+| Total Requests (10s) | 1,131        | 46,853      | 41x more    |
