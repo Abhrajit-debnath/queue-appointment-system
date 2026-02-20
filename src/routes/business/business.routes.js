@@ -16,7 +16,7 @@ const router = express.Router();
 router.use(authMiddleware);
 
 // Business Routes
-router.get("/", roleMiddleware("owner", "customer"), getallBusinesses);
+router.get("/", roleMiddleware("owner", "customer", "staff"), getallBusinesses);
 
 router.post(
   "/create",
