@@ -17,7 +17,7 @@ router.use(authMiddleware);
 // Staff Routes
 
 router.post(
-  "/",
+  "/create",
   authMiddleware,
   staffValidator,
   staffValidate,

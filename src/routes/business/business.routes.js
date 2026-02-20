@@ -19,7 +19,7 @@ router.use(authMiddleware);
 router.get("/", roleMiddleware("owner", "customer"), getallBusinesses);
 
 router.post(
-  "/",
+  "/create",
   businessValidator,
   businessValidate,
   roleMiddleware("owner"),
@@ -28,6 +28,6 @@ router.post(
 
 router.get("/businesses", roleMiddleware("owner"), getbusinesses);
 
-router.get("/:id", roleMiddleware("owner", "staff"), getBusinessById);
+router.get("/:id", roleMiddleware("staff","customer"), getBusinessById);
 
 export default router;

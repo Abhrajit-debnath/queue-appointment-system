@@ -20,15 +20,15 @@ router.use(authMiddleware);
 // Appointment Routes
 
 router.post(
-  "/",
+  "/create",
   authMiddleware,
   appointmentValidator,
   appointValidate,
-  roleMiddleware("owner"),
+  roleMiddleware("customer","staff"),
   createAppointment,
 );
 
-router.get("/", authMiddleware,roleMiddleware("staff","customer","owner"), getAppointmentbyId);
+router.get("/", authMiddleware,roleMiddleware("customer"), getAppointmentbyId);
 
 router.get(
   "/:businessId",
