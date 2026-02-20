@@ -22,7 +22,7 @@ const userSchema = new mongoose.Schema(
     },
 
     businessId: {
-      type: String,
+      type: mongoose.Schema.Types.ObjectId,
       ref: "Business",
       default: null,
     },
