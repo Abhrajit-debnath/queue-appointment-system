@@ -4,12 +4,15 @@ import staffRoutes from "./routes/staff/staff.routes.js";
 import businessRoutes from "./routes/business/business.routes.js";
 import appointmentRoutes from "./routes/appointment/appointment.routes.js";
 import queueRoutes from "./routes/queue/queue.routes.js";
-
-import cookieParser from "cookie-parser";
+import helmet from "helmet";
 
 const app = express();
 
 // Middlewares
+
+// Security middleware for express
+
+app.use(helmet());
 
 // Middleware to read JSON data from client
 
