@@ -5,6 +5,7 @@ import businessRoutes from "./routes/business/business.routes.js";
 import appointmentRoutes from "./routes/appointment/appointment.routes.js";
 import queueRoutes from "./routes/queue/queue.routes.js";
 import helmet from "helmet";
+import { limiter } from "./rateLimiting/limiter.js";
 
 const app = express();
 
@@ -17,6 +18,10 @@ app.use(helmet());
 // Middleware to read JSON data from client
 
 app.use(express.json());
+
+// Middleware to limit the no. of request from client
+
+app.use(limiter);
 
 // Routes
 
