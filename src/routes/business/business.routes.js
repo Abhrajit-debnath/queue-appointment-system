@@ -5,7 +5,7 @@ import {
   businessValidator,
 } from "../../validators/business/business.validator.js";
 import createbusiness from "../../controllers/business/create.controller.js";
-import authMiddleware from "../../middlewares/auth.midddleware.js";
+import authMiddleware from "../../middlewares/auth.middleware.js";
 import getbusinesses from "../../controllers/business/get.controller.js";
 import roleMiddleware from "../../middlewares/role.middleware.js";
 import getallBusinesses from "../../controllers/business/getall.controller.js";

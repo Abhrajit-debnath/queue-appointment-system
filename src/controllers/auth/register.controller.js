@@ -1,17 +1,20 @@
 import userModel from "../../models/user.model.js";
-import {hashPassword} from "../../helpers/password.helper.js";
-import {generateToken} from "../../helpers/token.helper.js";
+import { hashPassword } from "../../helpers/password.helper.js";
+import {
+  generateAccessToken,
+  generateRefreshToken,
+} from "../../helpers/token.helper.js";
 
 const registerUser = async (req, res) => {
   const { email, role, password, businessId } = req.body;
 
-  const hashedPassword = await hashPassword(password);
-
-  if (!hashedPassword) {
-    console.log("Unable to hash password");
-  }
-
   try {
+    const hashedPassword = await hashPassword(password); // ✅ inside try
+
+    if (!hashedPassword) {
+      return res.status(500).json({ message: "Unable to hash password" }); // ✅ return
+    }
+
     const user = await userModel.create({
       email,
       password: hashedPassword,
@@ -19,35 +22,29 @@ const registerUser = async (req, res) => {
       businessId,
     });
 
-    if (!user) {
-      console.log("Something to went wrong");
+    const tokenOptions = { expiresIn: "15m" };
+
+    const { accessToken } = generateAccessToken(user.role, user._id, tokenOptions);
+    const { refreshToken } = generateRefreshToken(user.role, user._id); 
+
+    if (!accessToken) {
+      return res.status(500).json({ message: "Unable to generate token" });
     }
 
-    const tokenOptions = {
-      expiresIn: "2 days",
-    };
-
-    const token = generateToken(user.role, user._id, tokenOptions);
-
-    if (!token) {
-      console.log("Unable to generate token");
-    }
-
-    console.log(token);
-
-    const options = {
-      maxAge: 24 * 60 * 60 * 1000,
+    res.cookie("refreshToken", refreshToken, {
+      maxAge: 7 * 24 * 60 * 60 * 1000,
       httpOnly: true,
       secure: false,
-    };
-
-    res.cookie("token", token, options);
-
-    res.status(201).json({
-      message: "User Registered Sucessfully",
     });
+
+    return res.status(201).json({
+      message: "User Registered Successfully",
+      accessToken, 
+    });
+
   } catch (error) {
-    console.log(error);
+    console.error(error);
+    return res.status(500).json({ message: "Internal server error" }); // ✅
   }
 };
 

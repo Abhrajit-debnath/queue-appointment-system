@@ -6,7 +6,7 @@ import appointmentRoutes from "./routes/appointment/appointment.routes.js";
 import queueRoutes from "./routes/queue/queue.routes.js";
 import helmet from "helmet";
 import { limiter } from "./rateLimiting/limiter.js";
-
+import cookieParser from "cookie-parser";
 const app = express();
 
 // Middlewares
@@ -18,6 +18,10 @@ app.use(helmet());
 // Middleware to read JSON data from client
 
 app.use(express.json());
+
+// Middleware to parse cookie from client
+
+app.use(cookieParser());
 
 // Middleware to limit the no. of request from client
 
@@ -31,9 +35,5 @@ app.use("/api/staff", staffRoutes);
 app.use("/api/appointment", appointmentRoutes);
 app.use("/api/appointments", appointmentRoutes);
 app.use("/api/queue", queueRoutes);
-
-app.get("/", (req, res) => {
-  res.send("hello");
-});
 
 export default app;

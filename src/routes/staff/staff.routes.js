@@ -4,7 +4,7 @@ import {
   staffValidate,
   staffValidator,
 } from "../../validators/staff/staff.validator.js";
-import authMiddleware from "../../middlewares/auth.midddleware.js";
+import authMiddleware from "../../middlewares/auth.middleware.js";
 import roleMiddleware from "../../middlewares/role.middleware.js";
 import createStaff from "../../controllers/staff/create.controller.js";
 import getStaffbyId from "../../controllers/staff/getId.controller.js";

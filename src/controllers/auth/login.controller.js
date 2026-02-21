@@ -1,61 +1,67 @@
 import userModel from "../../models/user.model.js";
 import { comparePassword } from "../../helpers/password.helper.js";
-import { generateToken } from "../../helpers/token.helper.js";
+import {
+  generateAccessToken,
+  generateRefreshToken,
+} from "../../helpers/token.helper.js";
 
 const loginUser = async (req, res) => {
-
   const { email, password, role } = req.body;
 
   try {
-    const user = await userModel.findOne({
-      email,
-    });
+    const user = await userModel.findOne({ email });
 
     if (!user) {
-      res.status(405).json({
-        message: "User doesn't exists",
+      return res.status(404).json({
+        message: "User doesn't exist",
       });
     }
-
-    console.log(user);
 
     const comparedPassword = await comparePassword(password, user.password);
 
     if (!comparedPassword) {
-      res.status(401).json({
+      return res.status(401).json({
         message: "Wrong Credentials",
       });
     }
 
     if (user.role !== role) {
-      res.status(401).json({
+      return res.status(401).json({
         message: "Invalid Role",
       });
     }
 
-    const tokenOptions = {
-      expiresIn: "2 days",
-    };
+    const tokenOptions = { expiresIn: "15m" };
 
-    const token = generateToken(user.role, user._id, tokenOptions);
+    const { accessToken } = generateAccessToken(
+      user.role,
+      user._id,
+      tokenOptions,
+    );
 
-    if (!token) {
-      console.log("Unable to generate token");
+    const { refreshToken } = generateRefreshToken(user.role, user._id);
+
+    if (!accessToken) {
+      return res.status(500).json({ message: "Unable to generate token" });
     }
 
-    const options = {
-      maxAge: 24 * 60 * 60 * 1000,
+    if (!refreshToken) {
+      return res.status(500).json({ message: "Unable to generate token" });
+    }
+
+    res.cookie("refreshToken", refreshToken, {
+      maxAge: 7 * 24 * 60 * 60 * 1000,
       httpOnly: true,
       secure: false,
-    };
+    });
 
-    res.cookie("token", token, options);
-
-    res.status(201).json({
-      message: "User LoggedIn Sucessfully",
+    return res.status(200).json({
+      message: "User LoggedIn Successfully",
+      accessToken,
     });
   } catch (error) {
-    console.log(error);
+    console.error(error);
+    return res.status(500).json({ message: "Internal server error" });
   }
 };
 

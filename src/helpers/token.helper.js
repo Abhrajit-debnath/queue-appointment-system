@@ -1,29 +1,60 @@
 import jwt from "jsonwebtoken";
 
-const generateToken = (role, id, tokenOptions) => {
+const generateAccessToken = (role, id, tokenOptions) => {
   try {
-    const token = jwt.sign(
+    const accessToken = jwt.sign(
       {
         role,
         userId: id,
       },
-      process.env.JWT_SECRET,
+      process.env.ACCESS_SECRET,
       tokenOptions,
     );
 
-    return token;
+    return {
+      accessToken,
+    };
+  } catch (error) {
+    console.log(error.message);
+
+    throw new Error("Token can't be generated");
+  }
+};
+
+const generateRefreshToken = (role, id) => {
+  try {
+    const refreshToken = jwt.sign(
+      {
+        role,
+        userId: id,
+      },
+      process.env.REFRESH_SECRET,
+      {
+        expiresIn: "7d",
+      },
+    );
+
+    return {
+      refreshToken,
+    };
   } catch (error) {
     throw new Error("Token can't be generated");
   }
 };
 
-const decodeToken = (token) => {
+const decodeToken = (token, tokenName) => {
   try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    return decoded
+    const decoded = jwt.verify(
+      token,
+      tokenName === "access"
+        ? process.env.ACCESS_SECRET
+        : process.env.REFRESH_SECRET,
+    );
+    return decoded;
   } catch (error) {
-    throw new Error("Token can't be decoded");
+
+    throw error;
   }
 };
 
-export  {generateToken,decodeToken};
+export { generateAccessToken, generateRefreshToken, decodeToken };

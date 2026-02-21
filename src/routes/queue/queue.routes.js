@@ -1,5 +1,5 @@
 import express from "express";
-import authMiddleware from "../../middlewares/auth.midddleware.js";
+import authMiddleware from "../../middlewares/auth.middleware.js";
 import roleMiddleware from "../../middlewares/role.middleware.js";
 import generateQueue from "../../controllers/queue/queue.controller.js";
 
