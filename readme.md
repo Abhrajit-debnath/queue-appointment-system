@@ -17,7 +17,9 @@
 
 ## ✨ Features
 
-- 🔐 JWT Authentication
+- 🔐 JWT Authentication with refresh tokens
+- 🛡️ Rate Limiting
+- 🪖 Helmet Security
 - 📅 Appointment Booking
 - 🏢 Staff And Business Management
 - 🔄 Real-time Queue Management
@@ -30,9 +32,17 @@
 
 ## 🔍 Features Breakdown
 
-#### 🔐 JWT Authentication
+#### 🔐 JWT Authentication With Refresh Token
 
-> Implemented JWT authentication and password hashing for secure login/signup with bcrypt.js
+> Implemented JWT authentication with short-lived access tokens (15m) and long-lived refresh tokens (7d) for better security, along with password hashing using bcrypt.js for secure login/signup.
+
+#### 🛡️ Rate Limiting
+
+> Implemented rate limiting with express-rate-limiter for all routes upto 50 request per 10 mins
+
+#### 🪖 Helmet Security
+
+> Implemented helmet security middleware to protect against common web vulnerabilities like XSS, clickjacking, and MIME type sniffing by setting secure HTTP headers.
 
 #### 📅 Appointment Booking
 
@@ -147,7 +157,8 @@ Create a `.env` file in the root directory:
 PORT=3000
 MONGO_URI=mongodb://localhost:27017/dbname
 REDIS_URL=redis://localhost:6379
-JWT_SECRET=your_secret_key
+ACCESS_SECRET=your_access_secret
+REFRESH_SECRET=your_refresh_secret
 ```
 
 ---
@@ -180,7 +191,7 @@ npm run dev
 
 ## 🔮 Improvements
 
-### Peformance
+### Performance
 
 > Improved performance of queue route by implementing caching with redis tested with grafana k6
 
