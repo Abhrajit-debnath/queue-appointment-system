@@ -165,6 +165,9 @@ REFRESH_SECRET=your_refresh_secret
 
 ## 🚀 Getting Started
 
+## 🐳 Run with Docker (Recommended)
+- The entire stack (Node.js, MongoDB, Redis) is containerized for an instant "it works on my machine" experience.
+
 ### Prerequisites
 
 - Node.js v18+
